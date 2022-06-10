@@ -2,3 +2,7 @@
 	path = ubicor-api
 	url = git@github.com:CrissAlvarezH/ubicor-api.git
 	branch = main
+[submodule "ubicor-frontend"]
+	path = ubicor-frontend
+	url = git@github.com:CrissAlvarezH/ubicor-frontend.git
+	branch = main
