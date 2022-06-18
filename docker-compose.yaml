@@ -18,6 +18,14 @@ services:
     ports:
       - "8000:80"
     env_file:
-      - .env/.ubicor.env
-    
+      - .env/.ubicor-api.env
+
+  ubicor-frontend:
+    build: ubicor-frontend/
+    depends_on:
+      - ubicor-api
+    ports:
+      - "3000:3000"
+    env_file:
+      - .env/.ubicor-frontend.env
   
