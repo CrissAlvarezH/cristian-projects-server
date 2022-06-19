@@ -35,13 +35,12 @@ services:
     build: 
       context: ubicor-frontend/
       args:
-        - API_BASE_URL="ubicor.alvarezcristian.com"
+        - API_BASE_URL=http://host.docker.internal:8000
     labels:
-      - "traefik.http.routers.ubicor-fronted.rule=Host(`ubicor.alvarezcristian.com`)"
+      - "traefik.http.routers.ubicor-frontend.rule=Host(`ubicor.alvarezcristian.com`)"
     depends_on:
       - ubicor-api
     ports:
       - "3000:3000"
     env_file:
       - .env/.ubicor-frontend.env
-  
