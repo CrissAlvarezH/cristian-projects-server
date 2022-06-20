@@ -15,7 +15,7 @@ services:
     ports:
       - "5432:5432"
     env_file:
-      - .env/.database.env
+      - .env-services/.database.env
     volumes:
       - ./scripts/init_database:/docker-entrypoint-initdb.d:ro
 
@@ -29,13 +29,14 @@ services:
       - reverse-proxy
       - database
     env_file:
-      - .env/.ubicor-api.env
+      - .env-services/.ubicor-api.env
 
   ubicor-frontend:
     build: 
       context: ubicor-frontend/
       args:
-        - API_BASE_URL=http://host.docker.internal:8000
+        - BUILD_TIME_API_BASE_URL=http://host.docker.internal:8000
+        - API_BASE_URL=${UBICOR_FRONTEND_API_BASE_URL:-http://api.ubicor.alvarezcristian.com}
     labels:
       - "traefik.http.routers.ubicor-frontend.rule=Host(`ubicor.alvarezcristian.com`)"
     depends_on:
@@ -43,4 +44,4 @@ services:
     ports:
       - "3000:3000"
     env_file:
-      - .env/.ubicor-frontend.env
+      - .env-services/.ubicor-frontend.env
