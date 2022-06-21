@@ -18,6 +18,7 @@ services:
       - .env-services/.database.env
     volumes:
       - ./scripts/init_database:/docker-entrypoint-initdb.d:ro
+      - db_data:/var/lib/postgresql/data
 
   ubicor-api:
     build: ubicor-api/
@@ -45,3 +46,6 @@ services:
       - "3000:3000"
     env_file:
       - .env-services/.ubicor-frontend.env
+
+volumes:
+  db_data:
