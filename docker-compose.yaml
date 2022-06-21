@@ -36,7 +36,7 @@ services:
     build: 
       context: ubicor-frontend/
       args:
-        - BUILD_TIME_API_BASE_URL=http://host.docker.internal:8000
+        - BUILD_TIME_API_BASE_URL=${UBICOR_FRONTEND_BUILD_TIME_API_BASE_URL:-http://host.docker.internal:8000}
         - API_BASE_URL=${UBICOR_FRONTEND_API_BASE_URL:-http://api.ubicor.alvarezcristian.com}
     labels:
       - "traefik.http.routers.ubicor-frontend.rule=Host(`ubicor.alvarezcristian.com`)"
