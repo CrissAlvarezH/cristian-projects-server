@@ -1,5 +1,10 @@
 #!/bin/bash
 
+if [ ! -x "$(command -v docker-compose)" ]; then
+    echo "WARN: docker-compose doesn't exist, use alias for 'docker compose'"
+    alias docker-compose='docker compose'
+fi 
+
 # Pull service images
 echo "\n----------------- INIT PULL SERVICE IMAGES  ---------------------"
 docker-compose pull
