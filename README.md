@@ -7,7 +7,7 @@ Proyecto para desplegar las aplicaciones a producción en un servidor usando [Do
 A continuación se enumeran los pasos para realizar el despliegue de los proyectos usando este repositorio
 
 ### Iniciar y descargar los submodulos
-Como cada cada proyecto a desplegar está en forma de [submodulo de git](https://git-scm.com/book/en/v2/Git-Tools-Submodules) es necesario, despues de clonar el repo, iniciarlos y actualizarlos para descargar el codigo de todos los submodulos.
+Como cada proyecto a desplegar está en forma de [submodulo de git](https://git-scm.com/book/en/v2/Git-Tools-Submodules) es necesario, despues de clonar el repo, iniciarlos y actualizarlos para descargar el codigo de todos los submodulos.
 
 	# clonamos el repositorio
     git clone https://github.com/CrissAlvarezH/cristian-projects-server
@@ -15,6 +15,8 @@ Como cada cada proyecto a desplegar está en forma de [submodulo de git](https:/
 	# inicializamos y descargamos el codigo de los submodulos
     git submodule init
     git submodule update
+    
+> Nota: es posible que se necesite estar autenticado por ssh para descargar los submodulos
 
 ### Variables de entorno
 Para cada proyecto se tiene un archivo de variables de entorno, la carpeta `.env-services.example` contiene un template de estos archivos con valores de prueba, por lo que debemos copiar esta carpeta y cambiar los valores de las variables de entorno de cada servicio, si solo se desea hacer una prueba con copiar el archivo y renombrar a `.env-services` será suficiente ya que los valores por defecto que tiene son completamente funcionales.
