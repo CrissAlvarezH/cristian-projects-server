@@ -20,6 +20,13 @@ services:
       - ./scripts/init_database:/docker-entrypoint-initdb.d:ro
       - db_data:/var/lib/postgresql/data
 
+  backups:
+    image: crissalvarezh/automate-backups-to-s3:0.1
+    volumes:
+      - ubicor-building-images:/backups/static-files/ubicor-building-images
+    env_file:
+      - .env-services/.backups.env
+
   ubicor-api:
     build: ubicor-api/
     labels:
@@ -29,6 +36,8 @@ services:
     depends_on:
       - reverse-proxy
       - database
+    volumes:
+      - ubicor-building-images:/code/app/static/images/buildings
     env_file:
       - .env-services/.ubicor-api.env
 
@@ -49,3 +58,4 @@ services:
 
 volumes:
   db_data:
+  ubicor-building-images:
