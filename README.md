@@ -36,7 +36,7 @@ Como cada proyecto a desplegar está en forma de [submodulo de git](https://git-
 Para cada proyecto se tiene un archivo de variables de entorno, la carpeta `.env-services.example` contiene un template de estos archivos con valores de prueba, por lo que debemos copiar esta carpeta y cambiar los valores de las variables de entorno de cada servicio, si solo se desea hacer una prueba con copiar el archivo y renombrar a `.env-services` será suficiente ya que los valores por defecto que tiene son completamente funcionales.
 
 	# copiamos la carpeta de ejemplo y renombramos
-    cp .env-services.example .env-services
+    cp -r .env-services.example .env-services
     
 Luego podemos configurar las variables de entorno que usará **docker compose** para la construcción de los contenedores, el procedimiento es el mismo y el archivo de ejemplo es `.env.example` y este no es del todo necesario usarlo ya que se pueden manejar los valores por defecto por motivos de pruebas.
 
