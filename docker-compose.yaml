@@ -28,7 +28,7 @@ services:
       - .env-services/.backups.env
 
   ubicor-api:
-    build: ubicor-api/
+    image: crissalvarezh/ubicor-api:0.1
     labels:
       - "traefik.http.routers.ubicor-api.rule=Host(`api.ubicor.alvarezcristian.com`)"
     ports:
@@ -42,11 +42,7 @@ services:
       - .env-services/.ubicor-api.env
 
   ubicor-frontend:
-    build: 
-      context: ubicor-frontend/
-      args:
-        - BUILD_TIME_API_BASE_URL=${UBICOR_FRONTEND_BUILD_TIME_API_BASE_URL:-http://host.docker.internal:8000}
-        - API_BASE_URL=${UBICOR_FRONTEND_API_BASE_URL:-http://api.ubicor.alvarezcristian.com}
+    image: crissalvarezh/ubicor-frontend:0.1
     labels:
       - "traefik.http.routers.ubicor-frontend.rule=Host(`ubicor.alvarezcristian.com`)"
     depends_on:
