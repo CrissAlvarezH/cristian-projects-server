@@ -21,14 +21,14 @@ services:
       - db_data:/var/lib/postgresql/data
 
   backups:
-    image: crissalvarezh/automate-backups-to-s3:0.1
+    image: crissalvarezh/automate-backups-to-s3:latest
     volumes:
       - ubicor-building-images:/backups/static-files/ubicor-building-images
     env_file:
       - .env-services/.backups.env
 
   ubicor-api:
-    image: crissalvarezh/ubicor-api:0.1
+    image: crissalvarezh/ubicor-api:latest
     labels:
       - "traefik.http.routers.ubicor-api.rule=Host(`api.ubicor.alvarezcristian.com`)"
     ports:
@@ -42,7 +42,7 @@ services:
       - .env-services/.ubicor-api.env
 
   ubicor-frontend:
-    image: crissalvarezh/ubicor-frontend:0.1
+    image: crissalvarezh/ubicor-frontend:latest
     labels:
       - "traefik.http.routers.ubicor-frontend.rule=Host(`ubicor.alvarezcristian.com`)"
     depends_on:
