@@ -17,7 +17,7 @@ services:
     env_file:
       - .env-services/.database.env
     volumes:
-      - ./scripts/init_database:/docker-entrypoint-initdb.d:ro
+      - ./init-db:/docker-entrypoint-initdb.d:ro
       - db_data:/var/lib/postgresql/data
 
   backups:
