@@ -9,6 +9,8 @@ services:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - ./traefik.yaml:/traefik.yaml
+      - ./traefik.log:/trafik.log
+      - ./acme.json:/acme.json
 
   database:
     image: postgres:14-alpine
@@ -30,7 +32,8 @@ services:
   ubicor-api:
     image: crissalvarezh/ubicor-api:latest
     labels:
-      - "traefik.http.routers.ubicor-api.rule=Host(`api.ubicor.alvarezcristian.com`)"
+      - traefik.http.routers.ubicor-api.rule=Host(`api.ubicor.alvarezcristian.com`)
+      - traefik.http.routers.ubicor-api.tls.certresolver=myresolver
     ports:
       - "8000:80"
     depends_on:
@@ -44,7 +47,8 @@ services:
   ubicor-frontend:
     image: crissalvarezh/ubicor-frontend:latest
     labels:
-      - "traefik.http.routers.ubicor-frontend.rule=Host(`ubicor.alvarezcristian.com`)"
+      - traefik.http.routers.ubicor-frontend.rule=Host(`ubicor.alvarezcristian.com`)
+      - traefik.http.routers.ubicor-frontend.tls.certresolver=myresolver
     depends_on:
       - ubicor-api
     ports:
