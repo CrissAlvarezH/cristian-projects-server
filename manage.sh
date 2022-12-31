@@ -27,7 +27,7 @@ elif [ $action = "update" ]; then
 
     echo "\nfinish update"
 
-elif [ $action = "reset-env" ]; then
+elif [ $action = "generate-env" ]; then
 
     echo "\ncreate .env-services from template"
     [ -d .env-services ] && rm -r .env-services && echo "delete .env-services"
