@@ -4,8 +4,8 @@ action=$1
 
 if [ $action = "start" ]; then
 
-    [ -f acme.json ] && touch acme.json && chmod 600 acme.json && echo "\ncreate acme.json for tls certificates"
-    [ -f traefik.log ] && touch traefik.log && echo "\ncreate traefik.log for error logs"
+    [ ! -f acme.json ] && touch acme.json && chmod 600 acme.json && echo "\ncreate acme.json for tls certificates"
+    [ ! -f traefik.log ] && touch traefik.log && echo "\ncreate traefik.log for error logs"
 
     echo "\nlaunch database"
     docker compose up -d database
