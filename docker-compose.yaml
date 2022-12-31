@@ -5,7 +5,8 @@ services:
   reverse-proxy:
     image: traefik:v2.7
     ports:
-      - "80:80"
+      - 80:80
+      - 443:443
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - ./traefik.yaml:/traefik.yaml
@@ -15,7 +16,7 @@ services:
   database:
     image: postgres:14-alpine
     ports:
-      - "5432:5432"
+      - 5432:5432
     env_file:
       - .env-services/.database.env
     volumes:
@@ -35,7 +36,7 @@ services:
       - traefik.http.routers.ubicor-api.rule=Host(`api.ubicor.alvarezcristian.com`)
       - traefik.http.routers.ubicor-api.tls.certresolver=myresolver
     ports:
-      - "8000:80"
+      - 8000:80
     depends_on:
       - reverse-proxy
       - database
@@ -52,7 +53,7 @@ services:
     depends_on:
       - ubicor-api
     ports:
-      - "3000:3000"
+      - 3000:3000
     env_file:
       - .env-services/.ubicor-frontend.env
 
