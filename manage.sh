@@ -22,8 +22,9 @@ elif [ $action = "update" ]; then
     docker compose pull
     sleep 4  # wait for database is ready to accept connections
 
-    echo "\nlaunch services"
-    docker compose up -d 
+    echo "\nrelaunch services"
+    docker compose up --force-recreate -d 
+    docker images prune -f
 
     echo "\nfinish update"
 
