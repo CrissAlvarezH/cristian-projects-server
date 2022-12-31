@@ -24,7 +24,7 @@ elif [ $action = "update" ]; then
 
     echo "\nrelaunch services"
     docker compose up --force-recreate -d 
-    docker images prune -f
+    docker images prune
 
     echo "\nfinish update"
 
