@@ -15,6 +15,8 @@ services:
 
   database:
     image: postgres:14-alpine
+    labels:
+      - traefik.enable=false
     ports:
       - 5432:5432
     env_file:
@@ -25,6 +27,8 @@ services:
 
   backups:
     image: crissalvarezh/automate-backups-to-s3:latest
+    labels:
+      - traefik.enable=false
     volumes:
       - ubicor-building-images:/backups/static-files/ubicor-building-images
     env_file:
