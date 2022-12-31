@@ -1,2 +1,4 @@
 .env
 .env-services
+acme.json
+traefik.log
