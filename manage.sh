@@ -20,7 +20,6 @@ elif [ $action = "update" ]; then
 
     echo "\npull images"
     docker compose pull
-    sleep 4  # wait for database is ready to accept connections
 
     echo "\nrelaunch services"
     docker compose up --force-recreate -d 
