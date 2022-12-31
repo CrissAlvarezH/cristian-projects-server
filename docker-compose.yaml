@@ -9,7 +9,7 @@ services:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - ./traefik.yaml:/traefik.yaml
-      - ./traefik.log:/trafik.log
+      - ./traefik.log:/traefik.log
       - ./acme.json:/acme.json
 
   database:
