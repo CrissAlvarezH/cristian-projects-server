@@ -42,6 +42,8 @@ elif [ $action = "generate-env" ]; then
     ubicor_root_user=ubicor-root-$(tr -dc A-Za-z0-9 </dev/urandom  | head -c 10 ; echo '')@email.com
     ubicor_root_pass=$(tr -dc A-Za-z0-9 </dev/urandom  | head -c 30 ; echo '')
 
+    frontend_revalidate_secret=$(tr -dc A-Za-z0-9 </dev/urandom  | head -c 50 ; echo '')
+
     sed -i "s~__POSTGRES_USER__~$dbuser~g" .env-services/.backups.env
     sed -i "s~__POSTGRES_PASSWORD__~$dbpass~g" .env-services/.backups.env
 
@@ -53,8 +55,10 @@ elif [ $action = "generate-env" ]; then
     sed -i "s~__POSTGRES_PASSWORD__~$dbpass~g" .env-services/.ubicor-api.env
     sed -i "s~__SUPER_USER_EMAIL__~$ubicor_root_user~g" .env-services/.ubicor-api.env
     sed -i "s~__SUPER_USER_PASSWORD__~$ubicor_root_pass~g" .env-services/.ubicor-api.env
+    sed -i "s~__FRONTEND_REVALIDATE_TOKEN__~$frontend_revalidate_secret~g" .env-services/.ubicor-api.env
 
     sed -i "s~__NEXTAUTH_SECRET__~$secret~g" .env-services/.ubicor-frontend.env
+    sed -i "s~__REVALIDATE_PAGE_SECRET__~$frontend_revalidate_secret~g" .env-services/.ubicor-frontend.env
 
     echo "\nfinish reset env"
 
