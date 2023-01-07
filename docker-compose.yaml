@@ -34,6 +34,14 @@ services:
     env_file:
       - .env-services/.backups.env
 
+  portfolio:
+    image: crissalvarezh/portfolio:latest
+    labels:
+      - traefik.http.routers.portfolio.rule=Host(`alvarezcristian.com`)
+      - traefik.http.routers.portfolio.tls.certresolver=myresolver
+    ports:
+      - 3001:3000
+
   ubicor-api:
     image: crissalvarezh/ubicor-api:latest
     labels:
