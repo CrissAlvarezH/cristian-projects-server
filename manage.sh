@@ -2,27 +2,33 @@
 
 action=$1
 
+if [ ! -x "$(command -v docker-compose)" ]; then
+    echo "WARN: docker-compose doesn't exist, use alias for 'docker compose'"
+    alias docker-compose='docker compose'
+fi 
+
+
 if [ $action = "start" ]; then
 
     [ ! -f acme.json ] && touch acme.json && chmod 600 acme.json && echo "\ncreate acme.json for tls certificates"
     [ ! -f traefik.log ] && touch traefik.log && echo "\ncreate traefik.log for error logs"
 
     echo "\nlaunch database"
-    docker compose up -d database
+    docker-compose up -d database
     sleep 4  # wait for database is ready to accept connections
 
     echo "\nlaunch other services"
-    docker compose up -d 
+    docker-compose up -d 
 
     echo "\nfinish start"
 
 elif [ $action = "update" ]; then
 
     echo "\npull images"
-    docker compose pull
+    docker-compose pull
 
     echo "\nrelaunch services"
-    docker compose up --force-recreate -d 
+    docker-compose up --force-recreate -d 
     docker image prune -f
 
     echo "\nfinish update"

@@ -8,7 +8,7 @@ update:
 	sh manage.sh update
 
 down:
-	docker compose down
+	docker-compose down
 
 reboot:
 	make down
