@@ -7,6 +7,9 @@ start:
 update:
 	sh manage.sh update
 
+install-docker:
+	sh manage.sh install-docker
+
 down:
 	docker-compose down
 

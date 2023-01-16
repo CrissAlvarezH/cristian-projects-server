@@ -17,34 +17,34 @@ if [ $action = "start" ]; then
     [ ! -f acme.json ] && touch acme.json && chmod 600 acme.json && echo "\ncreate acme.json for tls certificates"
     [ ! -f traefik.log ] && touch traefik.log && echo "\ncreate traefik.log for error logs"
 
-    echo "\nlaunch database"
+    echo "launch database"
     docker-compose up -d database
     sleep 4  # wait for database is ready to accept connections
 
-    echo "\nlaunch other services"
+    echo "launch other services"
     docker-compose up -d 
 
-    echo "\nfinish start"
+    echo "finish start"
 
 elif [ $action = "update" ]; then
 
-    echo "\npull images"
+    echo "pull images"
     docker-compose pull
 
-    echo "\nrelaunch services"
+    echo "relaunch services"
     docker-compose up --force-recreate -d 
     docker image prune -f
 
-    echo "\nfinish update"
+    echo "finish update"
 
 elif [ $action = "generate-env" ]; then
 
-    echo "\ncreate .env-services from template"
+    echo "create .env-services from template"
     [ -d .env-services ] && rm -r .env-services && echo "delete .env-services"
 
     cp -r .env-services.example .env-services
 
-    echo "\ngenerate secrets"
+    echo "generate secrets"
     dbuser=pguser-$(hash 10)
     dbpass=$(hash 30)
     secret=$(hash 50)
@@ -70,6 +70,25 @@ elif [ $action = "generate-env" ]; then
     sed -i "s~__NEXTAUTH_SECRET__~$secret~g" .env-services/.ubicor-frontend.env
     sed -i "s~__REVALIDATE_PAGE_SECRET__~$frontend_revalidate_secret~g" .env-services/.ubicor-frontend.env
 
-    echo "\nfinish reset env"
+    echo "finish reset env"
 
+elif [ $action = "install-docker" ]; then
+
+    echo "installing docker for Amazon Linux"
+    
+    sudo yum update
+
+    sudo yum install docker
+
+    echo "config user to user without sudo"
+    sudo usermod -a -G docker ec2-user
+    newgrp docker
+
+    echo "install docker compose"
+
+    wget https://github.com/docker/compose/releases/latest/download/docker-compose-$(uname -s)-$(uname -m) 
+    sudo mv docker-compose-$(uname -s)-$(uname -m) /usr/local/bin/docker-compose
+    sudo chmod -v +x /usr/local/bin/docker-compose
+
+    echo "Installation finish"
 fi
