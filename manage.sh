@@ -7,6 +7,10 @@ if [ ! -x "$(command -v docker-compose)" ]; then
     alias docker-compose='docker compose'
 fi 
 
+hash() {
+    echo $(tr -dc A-Za-z0-9 </dev/urandom | head -c $1 ; echo '')
+}
+
 
 if [ $action = "start" ]; then
 
@@ -41,14 +45,14 @@ elif [ $action = "generate-env" ]; then
     cp -r .env-services.example .env-services
 
     echo "\ngenerate secrets"
-    dbuser=pguser-$(tr -dc A-Za-z0-9 </dev/urandom  | head -c 10 ; echo '')
-    dbpass=$(tr -dc A-Za-z0-9 </dev/urandom  | head -c 30 ; echo '')
-    secret=$(tr -dc A-Za-z0-9 </dev/urandom  | head -c 50 ; echo '')
+    dbuser=pguser-$(hash 10)
+    dbpass=$(hash 30)
+    secret=$(hash 50)
 
-    ubicor_root_user=ubicor-root-$(tr -dc A-Za-z0-9 </dev/urandom  | head -c 10 ; echo '')@email.com
-    ubicor_root_pass=$(tr -dc A-Za-z0-9 </dev/urandom  | head -c 30 ; echo '')
+    ubicor_root_user=ubicor-root-$(hash 10)@email.com
+    ubicor_root_pass=$(hash 30)
 
-    frontend_revalidate_secret=$(tr -dc A-Za-z0-9 </dev/urandom  | head -c 50 ; echo '')
+    frontend_revalidate_secret=$(hash 50)
 
     sed -i "s~__POSTGRES_USER__~$dbuser~g" .env-services/.backups.env
     sed -i "s~__POSTGRES_PASSWORD__~$dbpass~g" .env-services/.backups.env
