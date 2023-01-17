@@ -78,7 +78,7 @@ elif [ $action = "install-docker" ]; then
     
     sudo yum update
 
-    sudo yum install docker
+    sudo yum install -y docker
 
     echo "config user to user without sudo"
     sudo usermod -a -G docker ec2-user
