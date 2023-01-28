@@ -4,8 +4,8 @@ generate-env:
 start:
 	sh manage.sh start
 
-update:
-	sh manage.sh update
+reload:
+	sh manage.sh reload $(service)
 
 install-docker:
 	sh manage.sh install-docker

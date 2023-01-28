@@ -26,7 +26,7 @@ if [ $action = "start" ]; then
 
     echo "finish start"
 
-elif [ $action = "update" ]; then
+elif [ $action = "reload" ]; then
 
     service=$2
 
@@ -37,7 +37,7 @@ elif [ $action = "update" ]; then
     docker-compose up --force-recreate -d $service
     docker image prune -f
 
-    echo "finish update"
+    echo "finish reload"
 
 elif [ $action = "generate-env" ]; then
 
