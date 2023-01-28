@@ -28,11 +28,13 @@ if [ $action = "start" ]; then
 
 elif [ $action = "update" ]; then
 
-    echo "pull images"
-    docker-compose pull
+    service=$2
 
-    echo "relaunch services"
-    docker-compose up --force-recreate -d 
+    echo "pull images"
+    docker-compose pull $service
+
+    echo "relaunch service $service"
+    docker-compose up --force-recreate -d $service
     docker image prune -f
 
     echo "finish update"

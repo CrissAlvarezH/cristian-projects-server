@@ -2,3 +2,4 @@
 .env-services
 acme.json
 traefik.log
+.idea
