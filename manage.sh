@@ -2,51 +2,65 @@
 
 action=$1
 
+log() {
+  GREEN='\033[0;32m'
+  YELLOW="\033[0;33m"
+
+  if [ "$2" = "warn" ]; then
+    color="$YELLOW"
+  else
+    color="$GREEN"
+  fi
+
+  printf "\n${color}$1\n"
+}
+
 if [ ! -x "$(command -v docker-compose)" ]; then
-    echo "WARN: docker-compose doesn't exist, use alias for 'docker compose'"
+    log "WARN: docker-compose doesn't exist, use alias for 'docker compose'" "warn"
     alias docker-compose='docker compose'
 fi 
 
 hash() {
-    echo $(tr -dc A-Za-z0-9 </dev/urandom | head -c $1 ; echo '')
+    echo "$(tr -dc A-Za-z0-9 </dev/urandom | head -c "$1" ; echo '')"
 }
 
 
-if [ $action = "start" ]; then
+if [ "$action" = "start" ]; then
 
-    [ ! -f acme.json ] && touch acme.json && chmod 600 acme.json && echo "\ncreate acme.json for tls certificates"
-    [ ! -f traefik.log ] && touch traefik.log && echo "\ncreate traefik.log for error logs"
+    [ ! -f acme.json ] && touch acme.json && chmod 600 acme.json && log "create acme.json for tls certificates"
+    [ ! -f traefik.log ] && touch traefik.log && log "create traefik.log for error logs"
 
-    echo "launch database"
+    log "launch database"
+
     docker-compose up -d database
     sleep 4  # wait for database is ready to accept connections
 
-    echo "launch other services"
+    log "launch other services"
     docker-compose up -d 
 
-    echo "finish start"
+    log "finish start"
 
-elif [ $action = "reload" ]; then
+elif [ "$action" = "reload" ]; then
 
     service=$2
 
-    echo "pull images"
-    docker-compose pull $service
+    log "pull images"
+    docker-compose pull "$service"
 
-    echo "relaunch service $service"
-    docker-compose up --force-recreate -d $service
+    log "relaunch service $service"
+    docker-compose up --force-recreate -d "$service"
     docker image prune -f
 
-    echo "finish reload"
+    log "finish reload"
 
-elif [ $action = "generate-env" ]; then
+elif [ "$action" = "generate-env" ]; then
 
-    echo "create .env-services from template"
-    [ -d .env-services ] && rm -r .env-services && echo "delete .env-services"
+    log "create .env-services from template"
+    [ -d .env-services ] && rm -r .env-services && log "delete .env-services"
 
     cp -r .env-services.example .env-services
 
-    echo "generate secrets"
+    log "generate secrets"
     dbuser=pguser-$(hash 10)
     dbpass=$(hash 30)
     secret=$(hash 50)
@@ -72,26 +86,26 @@ elif [ $action = "generate-env" ]; then
     sed -i "s~__NEXTAUTH_SECRET__~$secret~g" .env-services/.ubicor-frontend.env
     sed -i "s~__REVALIDATE_PAGE_SECRET__~$frontend_revalidate_secret~g" .env-services/.ubicor-frontend.env
 
-    echo "finish reset env"
+    log "finish reset env"
 
-elif [ $action = "install-docker" ]; then
+elif [ "$action" = "install-docker" ]; then
 
-    echo "installing docker for Amazon Linux"
+    log "installing docker for Amazon Linux"
     
     sudo yum update
 
     sudo yum install -y docker
 
-    echo "install docker compose"
+    log "install docker compose"
 
-    wget https://github.com/docker/compose/releases/latest/download/docker-compose-$(uname -s)-$(uname -m) 
-    sudo mv docker-compose-$(uname -s)-$(uname -m) /usr/local/bin/docker-compose
+    wget "https://github.com/docker/compose/releases/latest/download/docker-compose-$(uname -s)-$(uname -m)"
+    sudo mv "docker-compose-$(uname -s)-$(uname -m)" /usr/local/bin/docker-compose
     sudo chmod -v +x /usr/local/bin/docker-compose
 
-    echo "config user to user without sudo"
+    log "config user to user without sudo"
     sudo usermod -a -G docker ec2-user
-    # TODO fixit this command interrup the script flow
-    newgrp docker
+    newgrp docker # TODO fixit this command interrupt the script flow
 
-    echo "Installation finish"
+    log "Installation finish"
+
 fi
