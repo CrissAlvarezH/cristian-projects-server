@@ -49,7 +49,7 @@ elif [ "$action" = "reload" ]; then
     docker-compose pull "$service"
 
     log "relaunch service $service"
-    docker-compose up --force-recreate -d "$service"
+    docker-compose up --force-recreate --no-deps -d "$service"
     docker image prune -f
 
     log "finish reload"
