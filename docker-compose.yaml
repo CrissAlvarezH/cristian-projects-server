@@ -40,7 +40,7 @@ services:
     image: crissalvarezh/portfolio:latest
     restart: always
     labels:
-      - traefik.http.routers.portfolio.rule=Host(`alvarezcristian.com`)
+      - traefik.http.routers.portfolio.rule=(Host(`alvarezcristian.com`) || Host(`www.alvarezcristian.com`))
       - traefik.http.routers.portfolio.tls.certresolver=myresolver
 
   ubicor-api:
