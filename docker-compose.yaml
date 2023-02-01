@@ -61,7 +61,7 @@ services:
     image: crissalvarezh/ubicor-frontend:latest
     restart: always
     labels:
-      - traefik.http.routers.ubicor-frontend.rule=Host(`ubicor.alvarezcristian.com`)
+      - traefik.http.routers.ubicor-frontend.rule=(Host(`ubicor.alvarezcristian.com`) || Host(`www.ubicor.alvarezcristian.com`))
       - traefik.http.routers.ubicor-frontend.tls.certresolver=myresolver
     depends_on:
       - ubicor-api
